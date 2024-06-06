@@ -24,11 +24,11 @@ class InMemoryCatalogTest {
    * works correctly, you can comment out that call in main() and proceed to the next one.
    */
   public static void main(String[] args) {
-//    testFindById();
+//     testFindById();
 //     testFindByKeyword();
 //     testFindByCategory();
 //     testSize();
-    testGetAll();
+//     testGetAll();
   }
 
   private static void testSize() {
@@ -36,14 +36,6 @@ class InMemoryCatalogTest {
     catalog.size();
     System.out.println(catalog.size());
   }
-
-//  private static void testFindById() {
-//    InMemoryCatalog catalog = new InMemoryCatalog();
-//    MusicItem found = catalog.findById(6L);
-//    System.out.println(found);
-//    MusicItem notFound = catalog.findById(20L);
-//    System.out.println(notFound);
-//  }
 
   private static void testFindByKeyword() {
     InMemoryCatalog catalog = new InMemoryCatalog();
