@@ -25,11 +25,6 @@ public class CalculatorTest {
         calc = new Calculator();
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void testIsEven() {
         assertTrue(calc.isEven(6));
