@@ -12,6 +12,7 @@ import com.javatunes.catalog.InMemoryCatalog;
 import com.javatunes.catalog.MusicCategory;
 import com.javatunes.catalog.MusicItem;
 import java.util.Collection;
+import java.util.List;
 
 class InMemoryCatalogTest {
 
@@ -26,8 +27,8 @@ class InMemoryCatalogTest {
 //    testFindById();
 //     testFindByKeyword();
 //     testFindByCategory();
-     testSize();
-    // testGetAll();
+//     testSize();
+    testGetAll();
   }
 
   private static void testSize() {
@@ -44,30 +45,32 @@ class InMemoryCatalogTest {
 //    System.out.println(notFound);
 //  }
 
-    private static void testFindByKeyword() {
+  private static void testFindByKeyword() {
     InMemoryCatalog catalog = new InMemoryCatalog();
     Collection<MusicItem> keyWordItems = catalog.findByKeyword("SeaL");
     dump(keyWordItems);
-    }
+  }
 
-//
-    private static void testFindByCategory() {
-      InMemoryCatalog catalog = new InMemoryCatalog();
-      Collection<MusicItem> popItems = catalog.findByCategory(MusicCategory.POP);
-      dump(popItems);
-      Collection<MusicItem> jazzItems = catalog.findByCategory(MusicCategory.JAZZ);
-      dump(jazzItems);
+  //
+  private static void testFindByCategory() {
+    InMemoryCatalog catalog = new InMemoryCatalog();
+    Collection<MusicItem> popItems = catalog.findByCategory(MusicCategory.POP);
+    dump(popItems);
+    Collection<MusicItem> jazzItems = catalog.findByCategory(MusicCategory.JAZZ);
+    dump(jazzItems);
+  }
+
+  private static void testGetAll() {
+    InMemoryCatalog catalog = new InMemoryCatalog();
+    Collection<MusicItem> musicItems =  catalog.getAll();
+    dump(catalog.getAll());
+
+  }
+
+  private static void dump(Collection<MusicItem> items) {
+    for (MusicItem item : items) {
+      System.out.println(item);
     }
-//
-//    private static void testSize() {
-//    }
-//
-//    private static void testGetAll() {
-//    }
-      private static void dump(Collection<MusicItem> items) {
-        for (MusicItem item : items) {
-          System.out.println(item);
-        }
-      }
+  }
 
 }
