@@ -19,7 +19,7 @@ public class Television implements Comparable<Television> {
     private String brand;
     private int volume;
     private DisplayType display;
-    private Tuner tuner = new Tuner();  // set up internally and used for channel management
+    private final Tuner tuner = new Tuner();  // set up internally and used for channel management
 
     public Television() {
     }

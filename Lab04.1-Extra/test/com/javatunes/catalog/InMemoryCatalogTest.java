@@ -108,8 +108,8 @@ public class InMemoryCatalogTest {
    */
   @Test
   public void genreAvgPrice() {
-    double avgPrice = catalog.avgPrice();
-
+    double avgPrice = catalog.genreAvgPrice(MusicCategory.POP);
+    assertEquals(16.23, avgPrice, 0.001);
   }
 
   @Test

@@ -222,18 +222,18 @@ public class InMemoryCatalog implements Catalog {
     /**
      * TASK: find the average price of items in the specified genre (MusicCategory).
      */
-//    public double genreAvgPrice(MusicCategory category) {
-//        double total = 0;
-//        int count = 0;
-//        for(MusicItem item : catalogData){
-//            if(item.getMusicCategory().equals(category)){
-//                total += item.getPrice();
-//                count++;
-//            }
-//        }
-//
-//        return total/count;
-//    }
+    public double genreAvgPrice(MusicCategory category) {
+        double total = 0;
+        int count = 0;
+        for(MusicItem item : catalogData){
+            if(item.getMusicCategory().equals(category)){
+                total += item.getPrice();
+                count++;
+            }
+        }
+
+        return total/count;
+    }
 
     /**
      * TASK: are all items priced at least $10?
