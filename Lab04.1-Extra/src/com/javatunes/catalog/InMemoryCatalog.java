@@ -9,11 +9,8 @@
 package com.javatunes.catalog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -206,30 +203,37 @@ public class InMemoryCatalog implements Catalog {
     }
 
 
-    /**
-     * TASK: find the cheapest item with the specified genre (MusicCategory).
-     */
-    public boolean isAllCheap() {
-
-      return false;
-    }
+//    /**
+//     * TASK: find the cheapest item with the specified genre (MusicCategory).
+//     */
+//    public MusicItem isAllCheap(MusicCategory category) {
+//        double cheapestPrice = 1000;
+//        MusicItem cheapestItem = null;
+//        for(MusicItem item : catalogData) {
+//            if(item.getMusicCategory().equals(category) && item.getPrice() < cheapestPrice) {
+//                cheapestPrice = item.getPrice();
+//                cheapestItem = item;
+//            }
+//        }
+//        return cheapestItem;
+//    }
 
 
     /**
      * TASK: find the average price of items in the specified genre (MusicCategory).
      */
-    public double genreAvgPrice(MusicCategory category) {
-        double total = 0;
-        int count = 0;
-        for(MusicItem item : catalogData){
-            if(item.getMusicCategory().equals(category)){
-                total += item.getPrice();
-                count++;
-            }
-        }
-
-        return total/count;
-    }
+//    public double genreAvgPrice(MusicCategory category) {
+//        double total = 0;
+//        int count = 0;
+//        for(MusicItem item : catalogData){
+//            if(item.getMusicCategory().equals(category)){
+//                total += item.getPrice();
+//                count++;
+//            }
+//        }
+//
+//        return total/count;
+//    }
 
     /**
      * TASK: are all items priced at least $10?
@@ -248,7 +252,7 @@ public class InMemoryCatalog implements Catalog {
      * TASK: do we sell any items with the specified genre (MusicCategory)?
      * Another yes/no answer.
      */
-    public boolean doWeSaleCategory(MusicCategory category) {
+    public boolean doWeSellCategory(MusicCategory category) {
         for(MusicItem item : catalogData) {
             if(item.getMusicCategory().equals(category)) {
                 return true;
