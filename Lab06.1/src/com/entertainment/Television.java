@@ -8,110 +8,154 @@
  */
 package com.entertainment;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Television implements Comparable<Television> {
-    public static final int MIN_VOLUME = 0;
-    public static final int MAX_VOLUME = 100;
-    public static final int MIN_CHANNEL = 1;
-    public static final int MAX_CHANNEL = 999;
 
-    private String brand;
-    private int volume;
-    private DisplayType display;
-    private Tuner tuner = new Tuner();  // set up internally and used for channel management
+  public static final int MIN_VOLUME = 0;
+  public static final int MAX_VOLUME = 100;
+  public static final int MIN_CHANNEL = 1;
+  public static final int MAX_CHANNEL = 999;
+  private final Tuner tuner = new Tuner();  // set up internally and used for channel management
 
-    public Television() {
+  private String brand;
+  private int volume;
+  private DisplayType display;
+
+  public Television() {
+  }
+
+  public Television(String brand) {
+    setBrand(brand);
+  }
+
+  public Television(String brand, int volume) throws IllegalArgumentException {
+    this(brand);
+    setVolume(volume);
+  }
+
+  public Television(String brand, DisplayType display) {
+    this(brand);
+    setDisplay(display);
+  }
+
+  public Television(String brand, int volume, DisplayType display) throws IllegalArgumentException {
+    this(brand, volume);
+    setDisplay(display);
+  }
+
+  public String getBrand() {
+    return this.brand;
+  }
+
+  public void setBrand(String brand) {
+    this.brand = brand;
+  }
+
+  public int getVolume() {
+    return this.volume;
+  }
+
+  public void setVolume(int volume) throws IllegalArgumentException {
+    if (volume >= MIN_VOLUME && volume <= MAX_VOLUME) {
+      this.volume = volume;
+    } else {
+      throw new IllegalArgumentException("Invalid volume: " + volume + ". " +
+          "Allowed range: [" + MIN_VOLUME + "," + MAX_VOLUME + "].");
     }
+  }
 
-    public Television(String brand) {
-        setBrand(brand);
-    }
+  public int getCurrentChannel() {
+    return tuner.getChannel();  // delegate to contained Tuner object
+  }
 
-    public Television(String brand, int volume) throws IllegalArgumentException {
-        this(brand);
-        setVolume(volume);
+  public void changeChannel(int channel) throws InvalidChannelException {
+    if (channel >= MIN_CHANNEL && channel <= MAX_CHANNEL) {
+      tuner.setChannel(channel);  // delegate to contained Tuner object
+    } else {
+      throw new InvalidChannelException("Invalid channel: " + channel + ". " +
+          "Allowed range: [" + MIN_CHANNEL + "," + MAX_CHANNEL + "].");
     }
+  }
 
-    public Television(String brand, DisplayType display) {
-        this(brand);
-        setDisplay(display);
-    }
+  public DisplayType getDisplay() {
+    return this.display;
+  }
 
-    public Television(String brand, int volume, DisplayType display) throws IllegalArgumentException {
-        this(brand, volume);
-        setDisplay(display);
-    }
+  public void setDisplay(DisplayType display) {
+    this.display = display;
+  }
 
-    public String getBrand() {
-        return this.brand;
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + " [brand=" + getBrand() + ", volume=" + getVolume() +
+        ", currentChannel=" + getCurrentChannel() + ", display=" + getDisplay() + "]";
+  }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+  @Override
+  public int compareTo(Television other) {
+    return this.getBrand().compareTo(other.getBrand());
+  }
 
-    public int getVolume() {
-        return this.volume;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(getBrand(), getVolume(), getDisplay());
+  }
 
-    public void setVolume(int volume) throws IllegalArgumentException {
-        if (volume >= MIN_VOLUME && volume <= MAX_VOLUME) {
-            this.volume = volume;
-        }
-        else {
-            throw new IllegalArgumentException("Invalid volume: " + volume + ". " +
-                    "Allowed range: [" + MIN_VOLUME + "," + MAX_VOLUME + "].");
-        }
+  @Override
+  public boolean equals(Object obj) {
+    boolean result = false;
+    if (obj instanceof Television) {
+      Television other = (Television) obj;
+      result = Objects.equals(this.getBrand(), other.getBrand()) &&
+          Objects.equals(this.getVolume(), other.getVolume()) &&
+          Objects.equals(this.getDisplay(), other.getDisplay());
     }
+    return result;
+  }
 
-    public int getCurrentChannel() {
-        return tuner.getChannel();  // delegate to contained Tuner object
-    }
+  // STATIC NESTED CLASSES - referenced as Television.something
+  //Outside this class )Television, DisplayType is still visibile(it's public)
+  // However, it's name is now Television.DisplayType
+  public enum DisplayType {
+    LCD, LED, OLED, PLASMA, CRT
+  }
 
-    public void changeChannel(int channel) throws InvalidChannelException {
-        if (channel >= MIN_CHANNEL && channel <= MAX_CHANNEL) {
-            tuner.setChannel(channel);  // delegate to contained Tuner object
-        }
-        else {
-            throw new InvalidChannelException("Invalid channel: " + channel + ". " +
-                    "Allowed range: [" + MIN_CHANNEL + "," + MAX_CHANNEL + "].");
-        }
-    }
-
-    public DisplayType getDisplay() {
-        return this.display;
-    }
-
-    public void setDisplay(DisplayType display) {
-        this.display = display;
-    }
+  //Outside this class(Television), this is called Television.ChannelComparator
+  public static class ChannelComparator implements Comparator<Television> {
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [brand=" + getBrand() + ", volume=" + getVolume() +
-                ", currentChannel=" + getCurrentChannel() + ", display=" + getDisplay() + "]";
+    public int compare(Television tv1, Television tv2) {
+      return Integer.compare(tv1.getCurrentChannel(), tv2.getCurrentChannel());
     }
+  }
+
+  //Outside this class(Television), this is called Television.BrandChannelComparator
+  public static class BrandChannelComparator implements Comparator<Television> {
 
     @Override
-    public int compareTo(Television other) {
-        return this.getBrand().compareTo(other.getBrand());
+    public int compare(Television tv1, Television tv2) {
+      int result = tv1.getBrand().compareTo(tv2.getBrand());
+
+      if (result == 0) {
+        result = Integer.compare(tv1.getCurrentChannel(), tv2.getCurrentChannel());
+      }
+      return result;
+    }
+  }
+
+  //  NAMED MEMBER-LEVEL INNER CLASSES
+  private final class Tuner {
+
+    private int channel = 3;  // default channel for cable and satellite customers
+
+    public int getChannel() {
+      return this.channel;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getBrand(), getVolume(), getDisplay());
+    public void setChannel(int channel) {
+      this.channel = channel;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        boolean result = false;
-        if (obj instanceof Television) {
-            Television other = (Television) obj;
-            result = Objects.equals(this.getBrand(), other.getBrand()) &&
-                     Objects.equals(this.getVolume(), other.getVolume()) &&
-                     Objects.equals(this.getDisplay(), other.getDisplay());
-        }
-        return result;
-    }
+  }
 }
