@@ -11,7 +11,7 @@ package com.javatunes.personnel;
 import java.time.LocalDate;
 
 public class Employee implements Comparable<Employee> {
-    private Long id;
+    private final Long id;
     private String name;
     private LocalDate hireDate;
     private Double salary;
