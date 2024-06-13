@@ -22,35 +22,19 @@ class RadishSortTest {
 
 //    System.out.println("Sort by color via RadishColorComparator");
 //    radishes.sort(new RadishColorComparator());
-
-    System.out.println("Sort by color via anonymous Comparator class");
-    radishes.sort(new Comparator<Radish>() {
-      @Override
-      public int compare(Radish r1,  Radish r2) {
-        return r1.getColor().compareTo(r2.getColor());
-      }
-    });
+    System.out.println("Sort by color via Lambda as the comparator");
+    radishes.sort((r1, r2) -> r1.getColor().compareTo(r2.getColor()));
     dump(radishes);
 
 //    System.out.println("Sort by Guys On Top by RadishGuysOnTopComparator");
 //    radishes.sort(new RadishGuysOnTopComparator());
 
-    System.out.println("sort by guysOnTop via anonymous Comparator class");
-    radishes.sort(new Comparator<Radish>() {
-      @Override
-      public int compare(Radish r1, Radish r2) {
-        return Integer.compare(r1.getGuysOnTop(), r2.getGuysOnTop());
-      }
-    });
+    System.out.println("sort by guysOnTop via Lambda as the comparator");
+    radishes.sort((r1, r2) -> Integer.compare(r1.getGuysOnTop(), r2.getGuysOnTop()));
     dump(radishes);
 
     System.out.println("Sort by tailLength via anonymous Comparator class");
-    radishes.sort(new Comparator<Radish>() {
-      @Override
-      public int compare(Radish radish1, Radish radish2) {
-        return Double.compare(radish1.getTailLength(), radish2.getTailLength());
-      }
-    });
+    radishes.sort((r1,r2) -> Double.compare(r1.getTailLength(), r2.getTailLength()));
     dump(radishes);
 
   }
